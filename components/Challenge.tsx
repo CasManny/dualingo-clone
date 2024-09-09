@@ -29,8 +29,20 @@ const Challenge = ({
       )}
     >
       {options.map((option, index) => (
-        <div className="">
-          <Card id={option.id} key={option.id} text={option.text} imageSrc={option.imageSrc} shortcut={`${1 + 1}`} selected={selectedOption === option.id} />
+        <div className='' onClick={() => {}}>
+          <Card
+            id={option.id}
+            key={option.id}
+            text={option.text}
+            imageSrc={option.imageSrc}
+            shortcut={`${1 + index}`}
+            selected={selectedOption === option.id}
+            onClick={() => onSelect(option.id)}
+            status={status}
+            audioSrc={option.audioSrc}
+            disabled={disabled}
+            type={type}
+          />
         </div>
       ))}
     </div>
