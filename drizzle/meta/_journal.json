@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1725751413333,
+      "tag": "0000_gray_rhino",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1725779655578,
+      "tag": "0001_past_nextwave",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1725791553469,
+      "tag": "0002_big_scalphunter",
+      "breakpoints": true
+    }
+  ]
+}

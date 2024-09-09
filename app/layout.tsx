@@ -3,6 +3,8 @@ import { Nunito } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { ThemeProvider } from "@/components/theme-provider";
+import { Toaster } from "@/components/ui/sonner"
+import ExitModal from "@/components/modals/ExitModal";
 
 const nunito = Nunito({ subsets: ["latin"] });
 
@@ -19,8 +21,13 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={nunito.className}>
-          <ThemeProvider defaultTheme="light">{children}</ThemeProvider>
+        <body className={`${nunito.className} bg-white`}>
+          <ThemeProvider defaultTheme="light" attribute="class">
+
+            {children}
+            <Toaster />
+            <ExitModal />
+          </ThemeProvider>
         </body>
       </html>
     </ClerkProvider>
