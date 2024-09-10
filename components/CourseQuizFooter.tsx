@@ -6,7 +6,7 @@ type Props = {
   onCheck: () => void;
   status: "correct" | "wrong" | "completed" | "none";
   disabled?: boolean;
-  lessonId?: boolean;
+  lessonId?: number;
 };
 const CourseQuizFooter = ({ onCheck, status, disabled, lessonId }: Props) => {
   const isMobile = useMedia("(max-width: 1024px)");
