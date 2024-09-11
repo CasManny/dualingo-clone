@@ -1,13 +1,17 @@
 import CourseQuiz from '@/components/CourseQuiz'
 import { getLesson, getUserProgress, getUserSubscription } from '@/db/queries'
 import { redirect } from 'next/navigation'
-import React from 'react'
 
-const LessonPage = async () => {
-    const lessonData = getLesson()
+type Props = {
+    params: { 
+        lessonId: number
+    }
+}
+const LessonIdPage = async ({params}: Props) => {
+    const lessonData = getLesson(params.lessonId)
     const userProgressData = getUserProgress()
-    const userSubcriptionData = getUserSubscription()
-    const [lesson, userProgress, userSubcription] = await Promise.all([lessonData, userProgressData, userSubcriptionData])
+    const userSubscriptionData = getUserSubscription()
+    const [lesson, userProgress, userSubscription] = await Promise.all([lessonData, userProgressData, userSubscriptionData])
 
 
     if (!lesson || !userProgress) {
@@ -22,10 +26,10 @@ const LessonPage = async () => {
               initialLessonChallenges={lesson.challenges}
               initialHearts={userProgress.hearts}
               initailPercentage={initialPercentage}
-              userSubscription={userSubcription}
+              userSubscription={userSubscription} 
           />
     </div>
   )
 }
 
-export default LessonPage
+export default LessonIdPage

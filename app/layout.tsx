@@ -6,6 +6,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner"
 import ExitModal from "@/components/modals/ExitModal";
 import HeartModal from "@/components/modals/HeartModal";
+import PracticeModal from "@/components/modals/PracticeModal";
 
 const nunito = Nunito({ subsets: ["latin"] });
 
@@ -29,6 +30,7 @@ export default function RootLayout({
             <Toaster />
             <ExitModal />
             <HeartModal />
+            <PracticeModal />
           </ThemeProvider>
         </body>
       </html>

@@ -37,7 +37,7 @@ const CourseQuizFooter = ({ onCheck, status, disabled, lessonId }: Props) => {
             className=""
             variant={"default"}
             size={isMobile ? "sm" : "lg"}
-            onClick={() => (window.location.href = `/lesson/${lessonId}`)}
+            onClick={() => (window.location.href = `/lesson/${lessonId}`)} // we use window instead of router is because we want to see the practice modal after a course is finished
           >
             Practice again
           </Button>

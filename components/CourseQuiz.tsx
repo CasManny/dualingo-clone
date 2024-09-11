@@ -1,8 +1,8 @@
 "use client";
 
-import { challengeOptions, challenges } from "@/db/schema";
+import { challengeOptions, challenges, userSubscription } from "@/db/schema";
 import Confetti from 'react-confetti'
-import { useAudio, useWindowSize} from 'react-use'
+import { useAudio, useWindowSize, useMount} from 'react-use'
 import CourseQuizHeader from "./CourseQuizHeader";
 import { useState, useTransition } from "react";
 import QuestionBubble from "./QuestionBubble";
@@ -17,6 +17,7 @@ import Footer from "./Footer";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@clerk/nextjs";
 import { useHeartModal } from "@/store/use-heart-modal";
+import { usePracticeModal } from "@/store/use-practice-modal";
 
 type Props = {
   initailPercentage: number;
@@ -26,7 +27,9 @@ type Props = {
     completed: boolean;
     challengeOptions: (typeof challengeOptions.$inferSelect)[];
   })[];
-  userSubscription: any;
+  userSubscription: typeof userSubscription.$inferSelect & {
+    isActive: boolean
+  } | null
 };
 const CourseQuiz = ({
   initialHearts,
@@ -38,7 +41,10 @@ const CourseQuiz = ({
   const [finishAudio] = useAudio({src: "/finish.mp3", autoPlay: true})
   const { width, height } = useWindowSize()
   const { open: openHeartsModal } = useHeartModal()
-  const [lessonId, setLessonId] = useState(initialLessonId)
+  const {open: openPracticeModal} = usePracticeModal()
+  const [lessonId, setLessonId] = useState(() => {
+    return initailPercentage === 100 ? 0 : initailPercentage
+  })
   const router = useRouter()
   const [pending, startTransition] = useTransition()
   const [correctAudio, _c, correctControls] = useAudio({ src: "/correct.wav" })
@@ -67,6 +73,12 @@ const CourseQuiz = ({
   const OnNext = () => {
     setActiveIndex((current) => current + 1);
   };
+
+  useMount(() => {
+    if (initailPercentage === 100) {
+      openPracticeModal()
+    }
+  })
 
   const onContinue = () => {
     if (!selectedOption) return;
@@ -149,7 +161,7 @@ const CourseQuiz = ({
       <CourseQuizHeader
         hearts={hearts}
         percentage={percentage}
-        hasActiveSubscription={!!userSubscription?.active}
+        hasActiveSubscription={!!userSubscription?.isActive}
       />
       <div className="flex-1">
         <div className="h-screen flex items-center justify-center">
