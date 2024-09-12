@@ -1,33 +1,47 @@
 import CourseUnit from "@/components/CourseUnit";
 import FeedHeader from "@/components/FeedHeader";
 import FeedWrapper from "@/components/FeedWrapper";
+import Promo from "@/components/Promo";
 import StickyWrapper from "@/components/StickyWrapper";
 import UserProgress from "@/components/UserProgress";
-import { getCourseProgress, getLessonPercentage, getUnits, getUserProgress, getUserSubscription } from "@/db/queries";
+import {
+  getCourseProgress,
+  getLessonPercentage,
+  getUnits,
+  getUserProgress,
+  getUserSubscription,
+} from "@/db/queries";
 import { lessons, units as unitsSchema } from "@/db/schema";
 import { redirect } from "next/navigation";
 
 const LearnPage = async () => {
   const userProgressData = getUserProgress();
   const unitsData = getUnits();
-  const courseProgressData = getCourseProgress()
-  const lessonPercentageData = getLessonPercentage()
-  const userSubcriptionData = getUserSubscription()
+  const courseProgressData = getCourseProgress();
+  const lessonPercentageData = getLessonPercentage();
+  const userSubcriptionData = getUserSubscription();
 
-  const [userProgress, units, courseProgress, lessonPercentage, userSubscription] = await Promise.all([
+  const [
+    userProgress,
+    units,
+    courseProgress,
+    lessonPercentage,
+    userSubscription,
+  ] = await Promise.all([
     userProgressData,
     unitsData,
     courseProgressData,
     lessonPercentageData,
-    userSubcriptionData
+    userSubcriptionData,
   ]);
 
+  const isPro = !!userSubscription?.isActive;
 
   if (!userProgress || !userProgress.activeCourse) {
     redirect("/courses");
   }
   if (!courseProgress) {
-    redirect("/courses")
+    redirect("/courses");
   }
   return (
     <div className="flex flex-row-reverse gap-[48px] px-6">
@@ -36,8 +50,9 @@ const LearnPage = async () => {
           activeCourse={userProgress.activeCourse}
           hearts={userProgress.hearts}
           points={userProgress.points}
-          hasActiveSubcription={!!userSubscription?.isActive}
+          hasActiveSubcription={isPro}
         />
+        {!isPro && <Promo />}
       </StickyWrapper>
       <FeedWrapper>
         <FeedHeader title={userProgress.activeCourse.title} />
@@ -49,7 +64,13 @@ const LearnPage = async () => {
               description={unit.description}
               title={unit.title}
               lessons={unit.lessons}
-              activeLesson={courseProgress.activeLesson as typeof lessons.$inferSelect & { unit: typeof unitsSchema.$inferSelect} | undefined}
+              activeLesson={
+                courseProgress.activeLesson as
+                  | (typeof lessons.$inferSelect & {
+                      unit: typeof unitsSchema.$inferSelect;
+                    })
+                  | undefined
+              }
               activeLessonPercentage={lessonPercentage}
             />
           </div>
