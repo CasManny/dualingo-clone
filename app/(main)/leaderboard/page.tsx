@@ -11,6 +11,7 @@ import { redirect } from "next/navigation";
 import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import Promo from "@/components/Promo";
+import QuestPromo from "@/components/QuestPromo";
 
 const LeaderboardPage = async () => {
   const userProgressData = getUserProgress();
@@ -37,6 +38,7 @@ const LeaderboardPage = async () => {
           hasActiveSubcription={isPro}
         />
         {!isPro && <Promo />}
+        {!isPro && <QuestPromo points={userProgress.points} />}
       </StickyWrapper>
       <FeedWrapper>
         <div className="w-full flex flex-col items-center">

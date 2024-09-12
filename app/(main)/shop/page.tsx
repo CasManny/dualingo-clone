@@ -1,4 +1,5 @@
 import FeedWrapper from "@/components/FeedWrapper"
+import QuestPromo from "@/components/QuestPromo"
 import ShopItems from "@/components/ShopItems"
 import StickyWrapper from "@/components/StickyWrapper"
 import UserProgress from "@/components/UserProgress"
@@ -19,7 +20,8 @@ const ShopPage = async () => {
   return (
       <div className="flex flex-row-reverse gap-[48px] px-6">
           <StickyWrapper>
-              <UserProgress activeCourse={userProgress.activeCourse} hearts={userProgress.hearts} points={userProgress.points} hasActiveSubcription={isPro}  />
+              <UserProgress activeCourse={userProgress.activeCourse} hearts={userProgress.hearts} points={userProgress.points} hasActiveSubcription={isPro} />
+              {!isPro && <QuestPromo points={userProgress.points} />}
           </StickyWrapper>
           <FeedWrapper>
               <div className="w-full flex flex-col items-center">
